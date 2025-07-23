@@ -13,10 +13,17 @@ public class Main {
         String firstArg = args[0];
         switch(firstArg) {
             case "init":
+                Repository.initialize();
                 // TODO: handle the `init` command
                 break;
             case "add":
                 // TODO: handle the `add [filename]` command
+                break;
+            case "commit":
+                break;
+            case "branch":
+                break;
+            case "merge":
                 break;
             // TODO: FILL THE REST IN
         }
