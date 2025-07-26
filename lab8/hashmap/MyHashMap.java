@@ -30,7 +30,11 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     // You should probably define some more!
 
     /** Constructors */
-    public MyHashMap() { }
+    public MyHashMap() {
+
+        buckets = new Collection[16];
+
+    }
 
     public MyHashMap(int initialSize) { }
 
@@ -84,7 +88,14 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     private Collection<Node>[] createTable(int tableSize) {
         return null;
     }
+    @Override
+    public void put(K key, V value) {
 
+    }
+    @Override
+    public V get(K key) {
+
+    }
     // TODO: Implement the methods of the Map61B Interface below
     // Your code won't compile until you do so!
 
