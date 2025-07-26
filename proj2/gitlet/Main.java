@@ -64,7 +64,7 @@ public class Main {
                 System.out.println("No command with that name exists.");
                 break;
             case "reset":
-                R
+
 
         }
     }
