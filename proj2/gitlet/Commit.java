@@ -71,9 +71,11 @@ public class Commit implements Serializable {
 
     /**
      * 对新commit的追踪对象进行更新
+     * 清空removestage文件夹中的文件
      * */
     public void update() {
         List<String> list = Utils.plainFilenamesIn(Repository.ADDSTAGES_DIR);
+
         for(String filename : list){
             File file = join(ADDSTAGES_DIR,filename);
             String content = readContentsAsString(file);
@@ -95,7 +97,6 @@ public class Commit implements Serializable {
                 if(indexNum != -1){
                     bolbID.set(indexNum,bolb.getBOLBid());
                     bolbs.set(indexNum,bolb);
-
                 }
                 /** 这个方法不好，因为他在遍历的过程中改变了队列，会造成奇怪的后果*/
 //                for(BOLB b : bolbs){
@@ -109,11 +110,23 @@ public class Commit implements Serializable {
             }else if(!this.bolbFileName.contains(filename) ){
                 this.bolbID.add(bolb.BOLBid);
                 this.bolbFileName.add(filename);
-                bolbs.add(bolb);
+                this.bolbs.add(bolb);
             }
             file.delete();
         }
-
+        /**删除部分文件*/
+        List<String> deleteFileList =plainFilenamesIn(REMOVESTAGES_DIR);
+        for(String deleteFile : deleteFileList){
+            for(BOLB bolb : bolbs){
+                if(bolb.name.equals(deleteFile)){
+                    bolbID.remove(bolb.BOLBid);
+                    bolbs.remove(bolb);
+                    bolbFileName.remove(deleteFile);
+                    File deletPath = join(REMOVESTAGES_DIR,deleteFile);
+                    deletPath.delete();
+                }
+            }
+        }
         //更新当前branch
         this.uniqueID  = sha1(serialize(this));
         File headPath = join(HEADS_DIR,"head");

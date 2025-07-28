@@ -89,6 +89,7 @@ public class Repository {
         List<String> list = Utils.plainFilenamesIn(CWD);
         File file = join(CWD, name);
         if(!file.exists()) {
+
             System.out.println("File does not exist.");
             return;
         }
@@ -255,7 +256,8 @@ public class Repository {
      * 从头指针开始，一直打印信息到起始点
      * 内容包括：：commit uniqueID
      *            date
-     *            message */
+     *            message
+     *   修改日志 : 不可以println一个\n，这样会产生两个空行*/
     public static void log(){
         if(!GITLET_DIR.exists()){
             System.out.println("please init first");
@@ -267,8 +269,8 @@ public class Repository {
             System.out.println(curtCommit.getCommitID());
             System.out.println(curtCommit.getDate());
             System.out.println(curtCommit.getMessage());
-            System.out.println("\n");
             curtCommit = getThisFirstParent(curtCommit);
+            System.out.println();
 
 
         }
@@ -298,7 +300,14 @@ public class Repository {
         printAllBranch();
         printAddStage();
         printRemoveStage();
+        printElse();
         //todo Modifications Not Staged For Commit
+    }
+    public static void printElse(){
+        System.out.println("=== Modifications Not Staged For Commit ===");
+        System.out.println();
+        System.out.println("=== Untracked Files ===");
+        System.out.println();
     }
     public static void printAddStage(){
         List<String> addedFile = plainFilenamesIn(ADDSTAGES_DIR);
@@ -306,6 +315,7 @@ public class Repository {
         for(String s : addedFile) {
             System.out.println(s);
         }
+        System.out.println();
     }
     public static void printRemoveStage(){
         List<String> removedFile = plainFilenamesIn(REMOVESTAGES_DIR);
@@ -313,6 +323,7 @@ public class Repository {
         for(String s : removedFile) {
             System.out.println(s);
         }
+        System.out.println();
     }
     public static void printAllBranch(){
         List <String> branchName = plainFilenamesIn(BRANCHES_DIR);
@@ -327,6 +338,7 @@ public class Repository {
             }
 
         }
+        System.out.println();
     }
     /**吧current branch调整到给定branch，如果两者不一致
      * 吧给定branch的头commit中的所有BOLB都取出来覆盖CWD中的文件
