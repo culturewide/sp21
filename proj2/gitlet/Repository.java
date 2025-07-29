@@ -156,7 +156,12 @@ public class Repository {
     /** 判断add stage是否为空*/
     public static boolean isEmptyCommit(){
         List<String> st = plainFilenamesIn(ADDSTAGES_DIR);
-        if(st.isEmpty()) return true;
+        List<String> st1 = plainFilenamesIn(REMOVESTAGES_DIR);
+        if(st.isEmpty()) {
+            if(st1.isEmpty()) {
+                return true;
+            }
+        }
         return false;
     }
     /** 获取父母的ID，应该先从头指针入手，再通过头指针代表着id，反序列化出需要的commit
@@ -266,8 +271,8 @@ public class Repository {
         Commit curtCommit = getCurrentCommit();
         while(curtCommit != null) {
             System.out.println("===");
-            System.out.println(curtCommit.getCommitID());
-            System.out.println(curtCommit.getDate());
+            System.out.println("commit " +curtCommit.getCommitID());
+            System.out.println("Date: " +curtCommit.getDate());
             System.out.println(curtCommit.getMessage());
             curtCommit = getThisFirstParent(curtCommit);
             System.out.println();
