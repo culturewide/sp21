@@ -313,8 +313,15 @@ public class Repository {
     }
     public static void printAlltheCommit(){
         List<String> commitList = plainFilenamesIn(COMMITS_DIR);
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy Z", Locale.US);
         for(String s : commitList) {
-            System.out.println(s);
+            Commit curtCommit = getCommitByID(s);
+            System.out.println("===");
+            System.out.println("commit " +curtCommit.getCommitID());
+            String formattedDate = formatter.format(curtCommit.getDate());
+            System.out.println("Date: " + formattedDate);
+            System.out.println(curtCommit.getMessage());
+            System.out.println();
         }
     }
     /**打印出和信息相对应的commit的ID。如果有多个，分行打印
@@ -384,7 +391,8 @@ public class Repository {
     /**吧current branch调整到给定branch，如果两者不一致
      * 吧给定branch的头commit中的所有BOLB都取出来覆盖CWD中的文件
      * 吧head调整到这个branch
-     * 改变追踪后，不被追踪的file全部删除*/
+     * 改变追踪后，不被追踪的file全部删除
+     * 问题日志 没有成功吧checkout的那个branch内的内容恢复*/
     public static void checkoutBranch(String branchName){
         if(checkIfBranchSame(branchName)){
             return;
@@ -442,8 +450,13 @@ public class Repository {
         if(toRecoverFile.exists()) {
             if(checkUntracked(b.name)){
                 System.out.println("There is an untracked file in the way; delete it, or add and commit it first.");
+                return;
+            }else{
+                writeContents(toRecoverFile, b.fileContent);
+
             }
         }
+        writeContents(toRecoverFile, b.fileContent);
 
     }
     /** a method to find if the file is tracked in head commit*/
@@ -521,6 +534,7 @@ public class Repository {
         /**判断是否已经存在*/
         if(newBranch.exists()) {
             System.out.println("A branch with that name already exists.");
+            return;
         }
         File headPath = join(HEADS_DIR,"head");
         String curBranch = readContentsAsString(headPath);
