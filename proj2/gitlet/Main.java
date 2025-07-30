@@ -59,13 +59,18 @@ public class Main {
                 break;
             case "rm-branch":
                 Repository.removeBranch(args[1]);
+                break;
             // TODO: FILL THE REST IN
+
+            case "reset":
+                Repository.reset(args[1]);
+                break;
+            case "global-log":
+                Repository.globallog();
+                break;
             default:
                 System.out.println("No command with that name exists.");
                 break;
-            case "reset":
-
-
         }
     }
 }

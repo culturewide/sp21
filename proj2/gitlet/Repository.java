@@ -505,15 +505,15 @@ public class Repository {
                     for(BOLB b : commit.getBolbs()) {
                         if(b.name.equals(fileName)) {
                             recoverFile(b);
+                            return;
                         }
                     }
                 }else{
                     System.out.println("File does not exist in that commit.");
                 }
-            }else{
-                System.out.println("No commit with that id exists.");
             }
         }
+        System.out.println("No commit with that id exists.");
     }
     /**在branch文件夹中创建一个新的branch，并将他指向目前的commitID*/
     public static  void branch(String branchName){
