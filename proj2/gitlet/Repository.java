@@ -397,6 +397,7 @@ public class Repository {
         if(checkIfBranchSame(branchName)){
             return;
         }else if(!checkIfNoneExist(branchName)){
+            System.out.println("No such branch exists.");
             return;
         }else{
             /**首先获取该branch的所有BLOB
