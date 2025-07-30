@@ -149,7 +149,7 @@ public class Commit implements Serializable {
     public List<String> getBolbFileName(){
         return bolbFileName;
     }
-    public String getDate(){
+    public Date getDate(){
         return date;
     }
     public String getMessage(){
