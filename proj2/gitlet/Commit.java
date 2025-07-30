@@ -56,8 +56,8 @@ public class Commit implements Serializable {
         this.bolbFileName = new ArrayList<>();
         this.bolbID = new ArrayList<>();
         this.parentID = new ArrayList<>();
-        this.uniqueID =  sha1(serialize(this));
         this.bolbs = new ArrayList<>();
+        this.uniqueID =  sha1(serialize(this));
     }
     /** 将parent的bolb数据搬运过来
      * */
@@ -117,16 +117,22 @@ public class Commit implements Serializable {
         }
         /**删除部分文件*/
         List<String> deleteFileList =plainFilenamesIn(REMOVESTAGES_DIR);
+
         for(String deleteFile : deleteFileList){
-            for(BOLB bolb : bolbs){
-                if(bolb.name.equals(deleteFile)){
-                    bolbID.remove(bolb.BOLBid);
-                    bolbs.remove(bolb);
-                    bolbFileName.remove(deleteFile);
-                    File deletPath = join(REMOVESTAGES_DIR,deleteFile);
-                    deletPath.delete();
+            int index = -1;
+            for(int i = 0 ;i<this.bolbFileName.size();i++){
+                if(bolbFileName.get(i).equals(deleteFile)){
+                    index = i;
                 }
             }
+            if(index != -1){
+                bolbID.remove(index);
+                bolbs.remove(index);
+                bolbFileName.remove(index);
+                File deletFile =join(REMOVESTAGES_DIR,deleteFile);
+                deletFile.delete();
+            }
+
         }
         //更新当前branch
         this.uniqueID  = sha1(serialize(this));

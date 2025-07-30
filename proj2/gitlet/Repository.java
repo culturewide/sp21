@@ -62,8 +62,8 @@ public class Repository {
                 REMOVESTAGES_DIR.mkdir();
             }
             /** 将commit 初始化，写入commit_File*/
-            Date date = getinitDate();
-            Commit commit = new Commit("initial commit",date);
+
+            Commit commit = new Commit("initial commit",new Date(0));
             File commit_path = join(COMMITS_DIR,commit.getCommitID());
             writeObject(commit_path, commit);
             /** create the master branch
@@ -81,13 +81,7 @@ public class Repository {
 
 
     }
-    private static Date getinitDate() {
-        return new Date(0);
-    }
-    private static Date getCurDate(){
-        Date date = new Date();
-        return new Date(date.getTime());
-    }
+
     /** the method to add it to the addstage
      * 1.如果将要add的file与current commit一致，则不add他，若已经再add区域，移除
      * 如果add的文件 在removefile，把他拿出来
@@ -169,8 +163,8 @@ public class Repository {
             return;
         }
         List<String> parentid = getFirstParentID();
-        Date date =getCurDate();
-        Commit commit = new Commit(message,date,parentid);
+
+        Commit commit = new Commit(message,new Date(),parentid);
         commit.update();
         changeHeadCommit(commit);
     }
@@ -295,11 +289,13 @@ public class Repository {
             System.out.println("please init first");
             return;
         }
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy Z", Locale.US);
         Commit curtCommit = getCurrentCommit();
         while(curtCommit != null) {
             System.out.println("===");
             System.out.println("commit " +curtCommit.getCommitID());
-            System.out.println("Date: " +curtCommit.getDate());
+            String formattedDate = formatter.format(curtCommit.getDate());
+            System.out.println("Date: " + formattedDate);
             System.out.println(curtCommit.getMessage());
             curtCommit = getThisFirstParent(curtCommit);
             System.out.println();
