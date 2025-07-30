@@ -60,7 +60,7 @@ public class Repository {
             }
             /** 将commit 初始化，写入commit_File*/
 
-            Commit commit = new Commit(" initial commit"," 00:00:00 UTC, Thursday, 1 January 1970");
+            Commit commit = new Commit("initial commit"," 00:00:00 UTC, Thursday, 1 January 1970");
             File commit_path = join(COMMITS_DIR,commit.getCommitID());
             writeObject(commit_path, commit);
             /** create the master branch
@@ -79,6 +79,8 @@ public class Repository {
 
     }
     /** the method to add it to the addstage
+     * 1.如果将要add的file与current commit一致，则不add他，若已经再add区域，移除
+     * 如果add的文件 在removefile，把他拿出来
      *
      *
      * */
@@ -107,7 +109,7 @@ public class Repository {
                     sameInthecommits = true;
                     File dltFile = join(ADDSTAGES_DIR,name);
                     dltFile.delete();
-                    return;
+
                 }
             }
         }
