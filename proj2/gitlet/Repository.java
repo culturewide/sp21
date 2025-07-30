@@ -60,7 +60,7 @@ public class Repository {
             }
             /** 将commit 初始化，写入commit_File*/
 
-            Commit commit = new Commit("initial commit"," 00:00:00 UTC, Thursday, 1 January 1970");
+            Commit commit = new Commit("initial commit","00:00:00 UTC, Thursday, 1 January 1970");
             File commit_path = join(COMMITS_DIR,commit.getCommitID());
             writeObject(commit_path, commit);
             /** create the master branch
