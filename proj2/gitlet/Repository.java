@@ -62,8 +62,8 @@ public class Repository {
                 REMOVESTAGES_DIR.mkdir();
             }
             /** 将commit 初始化，写入commit_File*/
-
-            Commit commit = new Commit("initial commit","00:00:00 UTC, Thursday, 1 January 1970");
+            Date date = getinitDate();
+            Commit commit = new Commit("initial commit",date);
             File commit_path = join(COMMITS_DIR,commit.getCommitID());
             writeObject(commit_path, commit);
             /** create the master branch
@@ -80,6 +80,13 @@ public class Repository {
         }
 
 
+    }
+    private static Date getinitDate() {
+        return new Date(0);
+    }
+    private static Date getCurDate(){
+        Date date = new Date();
+        return new Date(date.getTime());
     }
     /** the method to add it to the addstage
      * 1.如果将要add的file与current commit一致，则不add他，若已经再add区域，移除
@@ -162,8 +169,7 @@ public class Repository {
             return;
         }
         List<String> parentid = getFirstParentID();
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy Z", Locale.US);
-        String date = formatter.format(new Date());
+        Date date =getCurDate();
         Commit commit = new Commit(message,date,parentid);
         commit.update();
         changeHeadCommit(commit);
@@ -301,6 +307,19 @@ public class Repository {
 
         }
 
+    }
+    public static void globallog(){
+        if(!GITLET_DIR.exists()){
+            System.out.println("please init first");
+        }
+        printAlltheCommit();
+
+    }
+    public static void printAlltheCommit(){
+        List<String> commitList = plainFilenamesIn(COMMITS_DIR);
+        for(String s : commitList) {
+            System.out.println(s);
+        }
     }
     /**打印出和信息相对应的commit的ID。如果有多个，分行打印
      * 方法：吧目前的commit全部取出来遍历，分别比较他们的message，如果相等就打印*/

@@ -4,6 +4,7 @@ package gitlet;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import static gitlet.Utils.*;  /** 这个地方还不理解*/
@@ -25,7 +26,7 @@ public class Commit implements Serializable {
      * variable is used. We've provided one example for `message`.
      */
     /** commit的日期 */
-    private String date;
+    private Date date;
     /** 创建的新的commit的唯一ID*/
     private String uniqueID;
     /** The message of this Commit. */
@@ -39,7 +40,7 @@ public class Commit implements Serializable {
     /* TODO: fill in the rest of this class. */
     /** initialize the Commit */
 
-    public Commit(String message,String date,List<String> parentID){
+    public Commit(String message, Date date, List<String> parentID){
         this.message = message;
         this.parentID = parentID;
         this.date = date;
@@ -49,7 +50,7 @@ public class Commit implements Serializable {
         copyFromParent(this);
     }
     /** 单独创建一个commit用于初始化*/
-    public Commit(String message,String date){
+    public Commit(String message,Date date){
         this.message = message;
         this.date = date;
         this.bolbFileName = new ArrayList<>();
