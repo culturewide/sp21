@@ -80,8 +80,10 @@ public class Repository {
     }
     /** the method to add it to the addstage
      *
+     *
      * */
     public static void add(String name){
+        boolean sameInthecommits = false;
         if(!GITLET_DIR.exists()){
             System.out.println("please init first");
             return;
@@ -102,15 +104,28 @@ public class Repository {
             for(BOLB b : getCurrentCommit().getBolbs())  {
                 if(newBolb.equals(b)) {
                     //todo 删文档
+                    sameInthecommits = true;
                     File dltFile = join(ADDSTAGES_DIR,name);
                     dltFile.delete();
                     return;
                 }
             }
         }
-        addHelper(name,newBolb);
+        if(!sameInthecommits){
+            addHelper(name,newBolb);
+        }
+        checkSameInRemove(name);
         return;
 
+    }
+    public static void checkSameInRemove(String name){
+       List <String> checkFile = plainFilenamesIn(REMOVESTAGES_DIR);
+       for(String f : checkFile) {
+           if(name.equals(f)) {
+               File dltFile = join(REMOVESTAGES_DIR,name);
+               dltFile.delete();
+           }
+       }
     }
     /**  创建一个暂时的blob来存贮需要add的内容*/
     private static void addHelper(String name, BOLB newBolb) {
