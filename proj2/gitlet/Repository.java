@@ -1,9 +1,12 @@
 package gitlet;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 import static gitlet.Utils.*;
 
 // TODO: any imports you need here
@@ -159,7 +162,8 @@ public class Repository {
             return;
         }
         List<String> parentid = getFirstParentID();
-        String date = new Date().toString();
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy Z", Locale.US);
+        String date = formatter.format(new Date());
         Commit commit = new Commit(message,date,parentid);
         commit.update();
         changeHeadCommit(commit);
