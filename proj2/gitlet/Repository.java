@@ -553,8 +553,9 @@ public class Repository {
         }
         if(getCurrentBranch().equals(branchName)) {
             System.out.println("Cannot remove the current branch.");
+            return;
         }
-        writeContents(toDelteBranch," ");
+        toDelteBranch.delete();
     }
     public static String getCurrentBranch(){
         File headPath = join(HEADS_DIR,"head");
