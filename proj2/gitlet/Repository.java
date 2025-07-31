@@ -162,6 +162,10 @@ public class Repository {
             System.out.println("No changes added to the commit.");
             return;
         }
+        if(message.isEmpty()){
+            System.out.println("Please enter a commit message.");
+            return;
+        }
         List<String> parentid = getFirstParentID();
 
         Commit commit = new Commit(message,new Date(),parentid);
@@ -524,6 +528,7 @@ public class Repository {
                     }
                 }else{
                     System.out.println("File does not exist in that commit.");
+                    return;
                 }
             }
         }
@@ -561,6 +566,10 @@ public class Repository {
         File headPath = join(HEADS_DIR,"head");
         return readContentsAsString(headPath);
     }
+    /**
+     * 重置到一个commit ID，吧所有该commit追踪的file全部恢复到cwd
+     * 移除所有未被跟踪的文件
+     * 清除所有ADD Remove区内容*/
     public static void reset(String commitID){
         File commitFile = join(COMMITS_DIR, commitID);
         if(!commitFile.exists()) {
@@ -577,6 +586,7 @@ public class Repository {
                 file.delete();
             }
         }
+        clearStage();
         changeHeadCommit(commit);
     }
 }   /* TODO: fill in the rest of this class. */

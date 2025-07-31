@@ -52,7 +52,9 @@ public class Main {
                     String commitID = args[1];
                     String FileName = args[3];
                     Repository.checkoutFileWithID(commitID,FileName);
-                };
+                }else {
+                    System.out.println("Incorrect operands.");
+                }
                 break;
             case "branch":
                 Repository.branch(args[1]);
